@@ -82,9 +82,62 @@ void main() {
 
     IO.println((szamlaloPtlan>=4?"Nem igaz":"Igaz")+" az állítás!");
 
+    IO.print("listában lévő legnagyobb elem: ");
 
-    A listában lévő legnagyobb elem: 7
-    A legnagyobb elem előfordulása a lista első felében: 0 db
+    int maxElem=elemek[0];
+    for(int i=1;i<elemek.length;i++)
+        if(elemek[i]>maxElem)
+            maxElem=elemek[i];
+    IO.println(maxElem);
+
+    IO.print("A legnagyobb elem előfordulása a lista első felében: ");
+    int szamlaloTombElsoFele=0;
+    for (int i = 0; i < elemek.length/2; i++)
+        if(elemek[i]==maxElem) szamlaloTombElsoFele++;
+    IO.println(szamlaloTombElsoFele+" db");
+
+    IO.print("A legnagyobb elem előfordulása a lista második felében: ");
+    int szamlaloTombMasodikFele=0;
+    for (int i = elemek.length/2; i < elemek.length; i++)
+        if(elemek[i]==maxElem) szamlaloTombMasodikFele++;
+    IO.println(szamlaloTombMasodikFele+" db");
+
+    szamlaloTombElsoFele=0;
+    szamlaloTombMasodikFele=0;
+    int i=0;
+    while(i<elemek.length/2){
+        if(elemek[i]==maxElem) szamlaloTombElsoFele++;
+        i++;
+    }
+    while(i<elemek.length){
+        if(elemek[i]==maxElem) szamlaloTombMasodikFele++;
+        i++;
+    }
+    IO.println(String.format("A legnagyobb elem előfordulása a lista első felében: %d db",szamlaloTombElsoFele));
+    IO.println(String.format("A legnagyobb elem előfordulása a lista második felében: %d db",szamlaloTombMasodikFele));
+
+    IO.println((szamlaloTombElsoFele>szamlaloTombMasodikFele?"Nem igaz":"Igaz")+" az állítás!");
+    /*
+    0 db
     A legnagyobb elem előfordulása a lista második felében: 1 db
-    Nem igaz az állítás!
+    Nem igaz az állítás!*/
+
+    String filename="eladasok.txt";
+    adatokBeolvasasa(filename);
+}
+
+void adatokBeolvasasa(String filename){
+
+    try {
+        List<String> input = Files.readAllLines(Path.of(filename));
+
+        for(int i=1;i<input.size();i++){
+            IO.println(input.get(i));
+        }
+
+
+    }catch (IOException e){
+        IO.println(e.getMessage());
+    }
+
 }
