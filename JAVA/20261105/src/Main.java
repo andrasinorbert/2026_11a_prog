@@ -122,22 +122,85 @@ void main() {
     A legnagyobb elem előfordulása a lista második felében: 1 db
     Nem igaz az állítás!*/
 
-    String filename="eladasok.txt";
-    adatokBeolvasasa(filename);
+    String filename= "eladasok.txt";
+    Map<String, int[]> adatok = adatokBeolvasasa(filename);
+
+    adatok.forEach((marka, honap) ->{
+            IO.print(marka+" -> ");
+            for (int j = 0; j < honap.length; j++) {
+                IO.print(honap[j]+" ");
+            }
+            IO.println("");
+        }
+    );
+    //kiirás egy sorban:
+    // adatok.forEach((m, h) ->{ IO.print(m+" -> "); for (int j = 0; j < h.length; j++) IO.print(h[j]+" "); IO.println("");});
+
+    IO.println("3. feladat:");
+    haviEladas(adatok);
 }
 
-void adatokBeolvasasa(String filename){
+/*
+    Írj függvényt haviEladás néven, amelyik a példában látható módon kiírja
+    a képernyőre, hogy a vizsgált időszakban mennyi volt az egyes
+    hónapokban eladott notebookok száma!
+
+    3. feladat:
+    Notebookok eladásai havi bontásban:
+    Január: 10 db
+    Február: 15 db
+    Március: 27 db
+    ...
+    December: 23 db
+*/
+String honapNeve(int honap) {
+    return Month.of(honap)
+            .getDisplayName(TextStyle.FULL, Locale.forLanguageTag("hu"));
+}
+
+void haviEladas(Map<String, int[]> adatok){
+    int[] honapokOssz= new int[12];
+
+    for (int[] honap : adatok.values()) {
+        for (int i = 0; i < honapokOssz.length; i++) {
+            honapokOssz[i] += honap[i];
+        }
+    }
+
+    for (int i = 0; i < honapokOssz.length; i++) {
+        IO.println(honapNeve(i+1)+": "+honapokOssz[i]+" db");
+    }
+
+}
+
+Map<String, int[]> adatokBeolvasasa(String filename){
+
+    Map<String, int[]> eredmeny=new HashMap<>();
 
     try {
-        List<String> input = Files.readAllLines(Path.of(filename));
+        Path path=Path.of(filename);
+        List<String> sorok = Files.readAllLines(path);
 
-        for(int i=1;i<input.size();i++){
-            IO.println(input.get(i));
+        // IO.println("Beolvasott fájl:");
+        // IO.println(path.toAbsolutePath());
+
+        for(String sor: sorok){
+            //IO.println(sor);
+            String[] adatok = sor.split(" ");
+            String marka = adatok[0];
+
+            int[] honapok= new int[12];
+            for (int i = 1; i < adatok.length; i++) {
+                honapok[i-1] = Integer.parseInt(adatok[i]);
+            }
+
+            eredmeny.put(marka, honapok);
         }
 
+        return eredmeny;
 
     }catch (IOException e){
         IO.println(e.getMessage());
     }
-
+    return null;
 }
