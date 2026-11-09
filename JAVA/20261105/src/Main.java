@@ -122,7 +122,7 @@ void main() {
     A legnagyobb elem előfordulása a lista második felében: 1 db
     Nem igaz az állítás!*/
 
-    String filename= "eladasok.txt";
+    String filename= "JAVA\\20261105\\eladasok.txt";
     Map<String, int[]> adatok = adatokBeolvasasa(filename);
 
     adatok.forEach((marka, honap) ->{
