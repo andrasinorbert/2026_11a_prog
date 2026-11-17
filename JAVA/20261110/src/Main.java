@@ -25,12 +25,26 @@ void main() {
     adatokBeolvasasa(filename);
 }
 
-void adatokBeolvasasa(String filename){
-    int[] napSorszama=new int[46];
-    String[] pingvinNev=new String[46];
-    String[] halFajta=new String[46];
-    int[] mennyiseg=new int[46];
+class Pingvin{
+    int napSorszama;
+    String pingvinNev;
+    String halFajta;
+    int mennyiseg;
 
+    //alt+insert -> constructor
+    public Pingvin(
+            int napSorszama,
+            String pingvinNev,
+            String halFajta,
+            int mennyiseg) {
+        this.napSorszama = napSorszama;
+        this.pingvinNev = pingvinNev;
+        this.halFajta = halFajta;
+        this.mennyiseg = mennyiseg;
+    }
+}
+
+void adatokBeolvasasa(String filename){
     try {
         Path path=Path.of(filename);
         List<String> sorok = Files.readAllLines(path);
@@ -38,17 +52,18 @@ void adatokBeolvasasa(String filename){
         // IO.println("Beolvasott fájl:");
         // IO.println(path.toAbsolutePath());
 
-        int index=0;
+        List<Pingvin> pingvinLista=new ArrayList<>();
         for(String sor: sorok){
             //IO.println(sor);
             String[] adatok = sor.split(" ");
 
-            napSorszama[index]=Integer.parseInt(adatok[0]);
-            pingvinNev[index]=adatok[1];
-            halFajta[index]=adatok[2];
-            mennyiseg[index]=Integer.parseInt(adatok[3]);
-
-            index++;
+            Pingvin p = new Pingvin(
+                    Integer.parseInt(adatok[0]),
+                    adatok[1],
+                    adatok[2],
+                    Integer.parseInt(adatok[3])
+            );
+            pingvinLista.add(p);
         }
     }catch (IOException e){
         IO.println(e.getMessage());
