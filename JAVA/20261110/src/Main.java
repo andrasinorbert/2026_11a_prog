@@ -22,7 +22,7 @@ void main() {
      */
 
     String filename= "JAVA\\20261110\\adatok.txt";
-    adatokBeolvasasa(filename);
+    List<Pingvin> pingvinek= adatokBeolvasasa(filename);
 }
 
 class Pingvin{
@@ -44,7 +44,7 @@ class Pingvin{
     }
 }
 
-void adatokBeolvasasa(String filename){
+List<Pingvin> adatokBeolvasasa(String filename){
     try {
         Path path=Path.of(filename);
         List<String> sorok = Files.readAllLines(path);
@@ -65,7 +65,9 @@ void adatokBeolvasasa(String filename){
             );
             pingvinLista.add(p);
         }
+        return pingvinLista;
     }catch (IOException e){
         IO.println(e.getMessage());
     }
+    return null;
 }
