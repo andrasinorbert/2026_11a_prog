@@ -27,6 +27,11 @@ void main() {
         System.out.println(p);
     }
      */
+    ArrayList<String> halfajtak= fajtak(pingvinek);
+
+    for(String s :  halfajtak){
+        IO.println(s);
+    }
 }
 
 static class Pingvin{
@@ -91,4 +96,19 @@ List<Pingvin> adatokBeolvasasa(String filename){
         IO.println("Hibás adatsor! Nincs elegendő adat.");
     }
     return pingvinLista;
+}
+
+ArrayList<String> fajtak(List<Pingvin> pingvinek){
+
+    Set<String> halfajtak= new HashSet<>();
+    for(Pingvin p: pingvinek){
+        halfajtak.add(p.halFajta);
+    }
+
+    /*
+    for(String h: halfajtak){
+        System.out.println(h);
+    }
+     */
+    return new ArrayList<>(halfajtak);
 }
