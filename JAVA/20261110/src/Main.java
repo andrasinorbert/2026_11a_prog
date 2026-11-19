@@ -21,11 +21,15 @@ void main() {
     listát
      */
 
-    String filename= "JAVA\\20261110\\adatok.txt";
+    String filename= "JAVA\\20261110\\adat.txt";
     List<Pingvin> pingvinek= adatokBeolvasasa(filename);
+    /* for(Pingvin p:pingvinek){
+        System.out.println(p);
+    }
+     */
 }
 
-class Pingvin{
+static class Pingvin{
     int napSorszama;
     String pingvinNev;
     String halFajta;
@@ -42,17 +46,27 @@ class Pingvin{
         this.halFajta = halFajta;
         this.mennyiseg = mennyiseg;
     }
+
+    @Override
+    public String toString() {
+        return "Pingvin{" +
+                "napSorszama=" + napSorszama +
+                ", pingvinNev='" + pingvinNev + '\'' +
+                ", halFajta='" + halFajta + '\'' +
+                ", mennyiseg=" + mennyiseg +
+                '}';
+    }
 }
 
 List<Pingvin> adatokBeolvasasa(String filename){
+    List<Pingvin> pingvinLista=new ArrayList<>();
     try {
         Path path=Path.of(filename);
         List<String> sorok = Files.readAllLines(path);
 
-        // IO.println("Beolvasott fájl:");
-        // IO.println(path.toAbsolutePath());
+         //IO.println("Beolvasott fájl:");
+         //IO.println(path.toAbsolutePath());
 
-        List<Pingvin> pingvinLista=new ArrayList<>();
         for(String sor: sorok){
             //IO.println(sor);
             String[] adatok = sor.split(" ");
@@ -63,11 +77,18 @@ List<Pingvin> adatokBeolvasasa(String filename){
                     adatok[2],
                     Integer.parseInt(adatok[3])
             );
+            //IO.println(p);
             pingvinLista.add(p);
         }
-        return pingvinLista;
-    }catch (IOException e){
-        IO.println(e.getMessage());
+        //IO.println("siker");
+    } catch (IOException e) {
+        IO.println("Fájlkezelési hiba: " + e.getMessage());
+
+    } catch (NumberFormatException e) {
+        IO.println("Hibás számformátum: " + e.getMessage());
+
+    } catch (ArrayIndexOutOfBoundsException e) {
+        IO.println("Hibás adatsor! Nincs elegendő adat.");
     }
-    return null;
+    return pingvinLista;
 }
